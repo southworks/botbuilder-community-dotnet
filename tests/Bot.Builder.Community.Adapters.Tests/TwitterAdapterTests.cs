@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Bot.Builder.Community.Adapters.Twitter.Webhooks.Models;
@@ -79,16 +80,52 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests
         }
 
         [TestMethod]
+        public async Task SendActivitiesAsyncShouldReturnEmptyResponsesWithActivities()
+        {
+            var options = new TwitterOptions
+            {
+                WebhookUri = "uri",
+                AccessSecret = "access-secret",
+                AccessToken = "access-token",
+                ConsumerKey = "consumer-key",
+                ConsumerSecret = "consumer-secret",
+                Environment = "env",
+                Tier = TwitterAccountApi.PremiumFree
+            };
+
+            _testOptions.SetupGet(x => x.Value).Returns(options);
+
+            var adapter = new TwitterAdapter(_testOptions.Object);
+            var activity = new Activity();
+
+            using (var turnContext = new TurnContext(adapter, activity))
+            {
+                var activities = new List<Activity>()
+                {
+                    new Activity()
+                    {
+                        Type =  ActivityTypes.Message,
+                        Text = "Test",
+                        Recipient = new ChannelAccount(),
+                    }
+                };
+
+                var result = await adapter.SendActivitiesAsync(turnContext, activities: activities.ToArray(), default);
+                Assert.IsTrue(result.Length > 0);
+            }
+        }
+
+        [TestMethod]
         public async Task UpdateActivityAsyncShouldReturnNotSupportedException()
         {
             var adapter = new TwitterAdapter(_testOptions.Object);
             var activity = new Activity();
-            
+
             using (var turnContext = new TurnContext(adapter, activity))
             {
                 await Assert.ThrowsExceptionAsync<NotSupportedException>(async () =>
                 {
-                   await adapter.UpdateActivityAsync(turnContext, activity, default);
+                    await adapter.UpdateActivityAsync(turnContext, activity, default);
                 });
             }
         }
