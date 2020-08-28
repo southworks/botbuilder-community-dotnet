@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Bot.Builder.Community.Adapters.Twitter.Webhooks.Services;
 using Microsoft.Extensions.Options;
-using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities.ObjectModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
