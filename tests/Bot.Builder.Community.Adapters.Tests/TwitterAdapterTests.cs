@@ -80,7 +80,7 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests
         }
 
         [TestMethod]
-        public async Task SendActivitiesAsyncShouldReturnEmptyResponsesWithActivities()
+        public async Task SendActivitiesAsyncShouldReturnResponseWithActivity()
         {
             var options = new TwitterOptions
             {
@@ -104,6 +104,7 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests
                 {
                     new Activity()
                     {
+                        Id = "3",
                         Type =  ActivityTypes.Message,
                         Text = "Test",
                         Recipient = new ChannelAccount(),
@@ -111,7 +112,8 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests
                 };
 
                 var result = await adapter.SendActivitiesAsync(turnContext, activities: activities.ToArray(), default);
-                Assert.IsTrue(result.Length > 0);
+                Assert.IsTrue(result.Length == 1);
+                Assert.IsTrue(result[0].Id == "3");
             }
         }
 
