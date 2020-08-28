@@ -13,6 +13,23 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Services
     {
         private readonly Mock<IOptions<TwitterOptions>> _testOptions = new Mock<IOptions<TwitterOptions>>();
 
+        [TestInitialize]
+        public void SetUp()
+        {
+            var options = new TwitterOptions
+            {
+                WebhookUri = "uri",
+                AccessSecret = "access-secret",
+                AccessToken = "access-token",
+                ConsumerKey = "consumer-key",
+                ConsumerSecret = "consumer-secret",
+                Environment = "env",
+                Tier = TwitterAccountApi.PremiumFree
+            };
+
+            _testOptions.SetupGet(x => x.Value).Returns(options);
+        }
+
         [TestMethod]
         public async Task RegisterWebhookWithEmptyUrlShouldFail()
         {
@@ -22,6 +39,35 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Services
             {
                 await premiumManager.RegisterWebhook(string.Empty, "environment_test");
             });
+        }
+
+        [TestMethod]
+        public async Task RegisterWebhookShouldReturnUnauthorized()
+        {
+            var premiumManager = new WebhooksPremiumManager(_testOptions.Object.Value);
+
+            var result = await premiumManager.RegisterWebhook("url", "environment");
+            Assert.AreEqual(89, result.Error.Errors[0].Code);
+        }
+
+        [TestMethod]
+        public async Task UnregisterWebhookShouldReturnUnauthorized()
+        {
+            var premiumManager = new WebhooksPremiumManager(_testOptions.Object.Value);
+
+            var result = await premiumManager.UnregisterWebhook("3", "environment");
+
+            Assert.AreEqual(89, result.Error.Errors[0].Code);
+        }
+
+        [TestMethod]
+        public async Task GetRegisteredWebhooksShouldReturnUnauthorized()
+        {
+            var premiumManager = new WebhooksPremiumManager(_testOptions.Object.Value);
+
+            var result = await premiumManager.GetRegisteredWebhooks();
+
+            Assert.AreEqual(89, result.Error.Errors[0].Code);
         }
     }
 }
