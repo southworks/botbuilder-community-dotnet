@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using Bot.Builder.Community.Adapters.Twitter.Webhooks.Models;
-using Bot.Builder.Community.Adapters.Twitter.Webhooks.Models.Twitter;
-using Castle.Core.Internal;
-using Microsoft.Bot.Builder;
-using Microsoft.Bot.Schema;
-using Microsoft.Extensions.Options;
-using Microsoft.Rest;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 
 namespace Bot.Builder.Community.Adapters.Twitter.Tests
 {
@@ -19,7 +10,7 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests
     public class TwitterOptionsTests
     {
         [TestMethod]
-        public async Task TwitterOptionsProperties()
+        public void TwitterOptionsPropertiesShouldBeSetSuccessfully()
         {
             var options = new TwitterOptions
             {
