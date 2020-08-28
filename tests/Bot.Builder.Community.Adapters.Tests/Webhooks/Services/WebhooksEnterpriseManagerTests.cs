@@ -31,11 +31,13 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Services
         }
 
         [TestMethod]
-        public async Task RegisterWebhookWithEmptyUrlShouldFail()
+        public async Task GetRegisteredWebhooksShouldReturnUnauthorized()
         {
             var enterpriseManager = new WebhooksEnterpriseManager(_testOptions.Object.Value);
 
-            await Assert.ThrowsExceptionAsync<ArgumentException>(async () => { await enterpriseManager.RegisterWebhook(string.Empty); });
+            var result = await enterpriseManager.GetRegisteredWebhooks();
+
+            Assert.AreEqual(89, result.Error.Errors[0].Code);
         }
 
         [TestMethod]
@@ -49,21 +51,19 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Services
         }
 
         [TestMethod]
+        public async Task RegisterWebhookWithEmptyUrlShouldFail()
+        {
+            var enterpriseManager = new WebhooksEnterpriseManager(_testOptions.Object.Value);
+
+            await Assert.ThrowsExceptionAsync<ArgumentException>(async () => { await enterpriseManager.RegisterWebhook(string.Empty); });
+        }
+
+        [TestMethod]
         public async Task UnregisterWebhookShouldReturnUnauthorized()
         {
             var enterpriseManager = new WebhooksEnterpriseManager(_testOptions.Object.Value);
 
             var result = await enterpriseManager.UnregisterWebhook("3");
-
-            Assert.AreEqual(89, result.Error.Errors[0].Code);
-        }
-
-        [TestMethod]
-        public async Task GetRegisteredWebhooksShouldReturnUnauthorized()
-        {
-            var enterpriseManager = new WebhooksEnterpriseManager(_testOptions.Object.Value);
-
-            var result = await enterpriseManager.GetRegisteredWebhooks();
 
             Assert.AreEqual(89, result.Error.Errors[0].Code);
         }
