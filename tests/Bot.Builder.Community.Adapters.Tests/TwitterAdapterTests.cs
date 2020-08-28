@@ -112,8 +112,8 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests
                 };
 
                 var result = await adapter.SendActivitiesAsync(turnContext, activities: activities.ToArray(), default);
-                Assert.IsTrue(result.Length == 1);
-                Assert.IsTrue(result[0].Id == "3");
+                Assert.AreEqual(1, result.Length);
+                Assert.AreEqual("3", result[0].Id);
             }
         }
 
