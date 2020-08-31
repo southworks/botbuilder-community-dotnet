@@ -45,7 +45,7 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Services
         {
             var enterpriseManager = new WebhooksEnterpriseManager(_testOptions.Object.Value);
 
-            var result = await enterpriseManager.RegisterWebhook("3");
+            var result = await enterpriseManager.RegisterWebhook("webhook-url");
 
             Assert.AreEqual(89, result.Error.Errors[0].Code);
         }
@@ -63,7 +63,7 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Services
         {
             var enterpriseManager = new WebhooksEnterpriseManager(_testOptions.Object.Value);
 
-            var result = await enterpriseManager.UnregisterWebhook("3");
+            var result = await enterpriseManager.UnregisterWebhook("webhook-id");
 
             Assert.AreEqual(89, result.Error.Errors[0].Code);
         }
