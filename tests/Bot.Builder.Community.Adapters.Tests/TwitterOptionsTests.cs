@@ -28,14 +28,14 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests
             Assert.AreEqual("bot-username", options.BotUsername);
             Assert.AreEqual("usernames", options.AllowedUsernames[0]);
             Assert.AreEqual(TwitterAccountApi.PremiumFree, options.Tier);
-            Assert.AreEqual(true, options.IsValid);
+            Assert.IsTrue(options.IsValid);
             Assert.AreEqual("consumer-key", options.ConsumerKey);
             Assert.AreEqual("consumer-secret", options.ConsumerSecret);
             Assert.AreEqual("access-token", options.AccessToken);
             Assert.AreEqual("access-secret", options.AccessSecret);
             Assert.AreEqual("env", options.Environment);
             Assert.AreEqual("uri", options.WebhookUri);
-            Assert.AreEqual(true, options.AllowedUsernamesConfigured());
+            Assert.IsTrue(options.AllowedUsernamesConfigured());
         }
     }
 }
