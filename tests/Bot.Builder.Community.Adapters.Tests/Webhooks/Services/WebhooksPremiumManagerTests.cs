@@ -45,7 +45,7 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Services
         {
             var premiumManager = new WebhooksPremiumManager(_testOptions.Object.Value);
 
-            var result = await premiumManager.RegisterWebhook("url", "environment");
+            var result = await premiumManager.RegisterWebhook("webhook-url", "env");
             Assert.AreEqual(89, result.Error.Errors[0].Code);
         }
 
@@ -56,7 +56,7 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Services
 
             await Assert.ThrowsExceptionAsync<ArgumentException>(async () =>
             {
-                await premiumManager.RegisterWebhook(string.Empty, "environment_test");
+                await premiumManager.RegisterWebhook(string.Empty, "env_test");
             });
         }
 
@@ -65,7 +65,7 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Services
         {
             var premiumManager = new WebhooksPremiumManager(_testOptions.Object.Value);
 
-            var result = await premiumManager.UnregisterWebhook("3", "environment");
+            var result = await premiumManager.UnregisterWebhook("webhook-id", "env");
 
             Assert.AreEqual(89, result.Error.Errors[0].Code);
         }
