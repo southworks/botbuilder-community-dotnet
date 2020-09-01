@@ -1,4 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Bot.Builder.Community.Adapters.Twitter.Webhooks.Models.Twitter;
 using Newtonsoft.Json;
 
@@ -11,7 +14,7 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
         [TestMethod]
         public void TwitterUserPropertiesShouldBeSetSuccessfully()
         {
-            var user = new TwitterUser()
+            var twitterUser = new TwitterUser
             {
                 Id = "user-id",
                 Name = "user-name",
@@ -29,22 +32,22 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
                 Url = "https://url"
             };
 
-            var jsonResult = JsonConvert.DeserializeObject<TwitterUser>(JsonConvert.SerializeObject(user));
+            var jsonResult = JsonConvert.DeserializeObject<TwitterUser>(JsonConvert.SerializeObject(twitterUser));
 
-            Assert.AreEqual(user.Id, jsonResult.Id);
-            Assert.AreEqual(user.Name, jsonResult.Name);
-            Assert.AreEqual(user.CreatedTimestamp, jsonResult.CreatedTimestamp);
-            Assert.AreEqual(user.Description, jsonResult.Description);
-            Assert.AreEqual(user.FollowersCount, jsonResult.FollowersCount);
-            Assert.AreEqual(user.FriendsCount, jsonResult.FriendsCount);
-            Assert.AreEqual(user.IsProtected, jsonResult.IsProtected);
-            Assert.AreEqual(user.IsVerified, jsonResult.IsVerified);
-            Assert.AreEqual(user.Location, jsonResult.Location);
-            Assert.AreEqual(user.ProfileImage, jsonResult.ProfileImage);
-            Assert.AreEqual(user.ProfileImageHttps, jsonResult.ProfileImageHttps);
-            Assert.AreEqual(user.ScreenName, jsonResult.ScreenName);
-            Assert.AreEqual(user.StatusesCount, jsonResult.StatusesCount);
-            Assert.AreEqual(user.Url, jsonResult.Url);
+            Assert.AreEqual(twitterUser.Id, jsonResult.Id);
+            Assert.AreEqual(twitterUser.Name, jsonResult.Name);
+            Assert.AreEqual(twitterUser.CreatedTimestamp, jsonResult.CreatedTimestamp);
+            Assert.AreEqual(twitterUser.Description, jsonResult.Description);
+            Assert.AreEqual(twitterUser.FollowersCount, jsonResult.FollowersCount);
+            Assert.AreEqual(twitterUser.FriendsCount, jsonResult.FriendsCount);
+            Assert.AreEqual(twitterUser.IsProtected, jsonResult.IsProtected);
+            Assert.AreEqual(twitterUser.IsVerified, jsonResult.IsVerified);
+            Assert.AreEqual(twitterUser.Location, jsonResult.Location);
+            Assert.AreEqual(twitterUser.ProfileImage, jsonResult.ProfileImage);
+            Assert.AreEqual(twitterUser.ProfileImageHttps, jsonResult.ProfileImageHttps);
+            Assert.AreEqual(twitterUser.ScreenName, jsonResult.ScreenName);
+            Assert.AreEqual(twitterUser.StatusesCount, jsonResult.StatusesCount);
+            Assert.AreEqual(twitterUser.Url, jsonResult.Url);
         }
     }
 }

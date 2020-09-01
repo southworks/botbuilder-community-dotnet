@@ -1,4 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Bot.Builder.Community.Adapters.Twitter.Webhooks.Models.Twitter;
 using System.Collections.Generic;
 using Newtonsoft.Json;
@@ -11,9 +14,9 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
     public class WebhookDMResultTests
     {
         [TestMethod]
-        public void WebhookDMResultPropertiesShouldBeSetSuccessfully()
+        public void WebhookDmResultPropertiesShouldBeSetSuccessfully()
         {
-            var webhookDmResult = new WebhookDMResult()
+            var webhookDmResult = new WebhookDMResult
             {
                 Users = new Dictionary<string, TwitterUser>(),
                 Events = new List<DMEvent>()
@@ -26,27 +29,28 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
         }
 
         [TestMethod]
-        public void WebhookDMResultShouldConvertoToDirectMessageEventSuccessfully()
+        public void WebhookDmResultShouldConvertToDirectMessageEventSuccessfully()
         {
-            DirectMessageEvent dmEvent = new WebhookDMResult()
+            DirectMessageEvent dmEvent = new WebhookDMResult
             {
-                Users = new Dictionary<string, TwitterUser>()
+                Users = new Dictionary<string, TwitterUser>
                 {
-                    ["sender-id"] = new TwitterUser() { Id = "sender-id" },
-                    ["recipient-id"] = new TwitterUser() { Id = "recipient-id" }
+                    ["sender-id"] = new TwitterUser { Id = "sender-id" },
+                    ["recipient-id"] = new TwitterUser { Id = "recipient-id" }
                 },
-                Events = new List<DMEvent>() {
-                    new DMEvent() {
+                Events = new List<DMEvent> {
+                    new DMEvent
+                    {
                         id = "event-id",
                         type = "message_create",
-                        message_create = new Message()
+                        message_create = new Message
                         {
-                            message_data = new Message_Data()
+                            message_data = new Message_Data
                             {
                                 text = "test-text",
-                                attachment = new Attachment()
+                                attachment = new Attachment
                                 {
-                                    media = new MediaEntity()
+                                    media = new MediaEntity
                                     {
                                         id = 1
                                     }
@@ -54,7 +58,7 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
                                 entities = new TwitterEntities()
                             },
                             sender_id = "sender-id",
-                            target = new Target() { recipient_id = "recipient-id" }
+                            target = new Target { recipient_id = "recipient-id" }
                         }
                     }
                 }
@@ -71,18 +75,18 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
         [TestMethod]
         public void NewDmResultPropertiesShouldBeSetSuccessfully()
         {
-            var result = new NewDmResult()
+            var dmResult = new NewDmResult
             {
                 @event = new DMEvent()
             };
 
-            Assert.AreEqual(typeof(DMEvent), result.@event.GetType());
+            Assert.AreEqual(typeof(DMEvent), dmResult.@event.GetType());
         }
 
         [TestMethod]
         public void MessagePropertiesShouldBeSetSuccessfully()
         {
-            var message = new Message()
+            var message = new Message
             {
                 target = new Target(),
                 message_data = new Message_Data(),
@@ -97,7 +101,7 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
         [TestMethod]
         public void Message_DataPropertiesShouldBeSetSuccessfully()
         {
-            var messageData = new Message_Data()
+            var messageData = new Message_Data
             {
                 text = "test-text",
                 entities = new TwitterEntities(),
@@ -110,9 +114,9 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
         }
 
         [TestMethod]
-        public void AtatchmentPropertiesShouldBeSetSuccessfully()
+        public void AttachmentPropertiesShouldBeSetSuccessfully()
         {
-            var attachment = new Attachment()
+            var attachment = new Attachment
             {
                 type = "attachment-type",
                 media = new MediaEntity()
@@ -126,7 +130,7 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
         [TestMethod]
         public void DmEventPropertiesShouldBeSetSuccessfully()
         {
-            var dmEvent = new DMEvent()
+            var dmEvent = new DMEvent
             {
                 id = "event-id",
                 type = "event-type",
@@ -141,19 +145,19 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
         }
 
         [TestMethod]
-        public void DmEventInstanceShouldConvertoToDirectMessageResultSuccessfully()
+        public void DmEventInstanceShouldConvertToDirectMessageResultSuccessfully()
         {
-            DirectMessageResult dmResult = new DMEvent()
+            DirectMessageResult dmResult = new DMEvent
             {
                 id = "event-id",
-                message_create = new Message()
+                message_create = new Message
                 {
-                    message_data = new Message_Data()
+                    message_data = new Message_Data
                     {
                         text = "test-text",
                     },
                     sender_id = "sender-id",
-                    target = new Target() { recipient_id = "recipient-id" }
+                    target = new Target { recipient_id = "recipient-id" }
                 }
             };
 

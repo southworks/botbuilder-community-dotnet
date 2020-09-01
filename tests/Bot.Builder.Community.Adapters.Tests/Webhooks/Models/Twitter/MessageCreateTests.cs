@@ -1,4 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Bot.Builder.Community.Adapters.Twitter.Webhooks.Models.Twitter;
 
 namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
@@ -10,7 +13,7 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
         [TestMethod]
         public void MessageCreatePropertiesShouldBeSetSuccessfully()
         {
-            var userMention = new MessageCreate()
+            var messageCreate = new MessageCreate
             {
                 id = 1,
                 id_str = "id-1",
@@ -27,25 +30,25 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
                 text = "test-text"
             };
 
-            Assert.AreEqual(1, userMention.id);
-            Assert.AreEqual("id-1", userMention.id_str);
-            Assert.AreEqual("2020-09-01T15:07:18Z", userMention.created_at);
-            Assert.AreEqual(typeof(TwitterEntities), userMention.entities.GetType());
-            Assert.AreEqual(typeof(TwitterFullUser), userMention.recipient.GetType());
-            Assert.AreEqual(1, userMention.recipient_id);
-            Assert.AreEqual("id-1", userMention.recipient_id_str);
-            Assert.AreEqual("recipient-screen-name", userMention.recipient_screen_name);
-            Assert.AreEqual(typeof(TwitterFullUser), userMention.sender.GetType());
-            Assert.AreEqual(2, userMention.sender_id);
-            Assert.AreEqual("id-2", userMention.sender_id_str);
-            Assert.AreEqual("sender-screen-name", userMention.sender_screen_name);
-            Assert.AreEqual("test-text", userMention.text);
+            Assert.AreEqual(1, messageCreate.id);
+            Assert.AreEqual("id-1", messageCreate.id_str);
+            Assert.AreEqual("2020-09-01T15:07:18Z", messageCreate.created_at);
+            Assert.AreEqual(typeof(TwitterEntities), messageCreate.entities.GetType());
+            Assert.AreEqual(typeof(TwitterFullUser), messageCreate.recipient.GetType());
+            Assert.AreEqual(1, messageCreate.recipient_id);
+            Assert.AreEqual("id-1", messageCreate.recipient_id_str);
+            Assert.AreEqual("recipient-screen-name", messageCreate.recipient_screen_name);
+            Assert.AreEqual(typeof(TwitterFullUser), messageCreate.sender.GetType());
+            Assert.AreEqual(2, messageCreate.sender_id);
+            Assert.AreEqual("id-2", messageCreate.sender_id_str);
+            Assert.AreEqual("sender-screen-name", messageCreate.sender_screen_name);
+            Assert.AreEqual("test-text", messageCreate.text);
         }
 
         [TestMethod]
         public void TwitterFullUserPropertiesShouldBeSetSuccessfully()
         {
-            var user = new TwitterFullUser()
+            var twitterFullUser = new TwitterFullUser
             {
                 id = 1,
                 id_str = "id-1",
@@ -91,48 +94,48 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
                 verified = true
             };
 
-            Assert.AreEqual(1, user.id);
-            Assert.AreEqual("id-1", user.id_str);
-            Assert.AreEqual("2020-09-01T15:07:18Z", user.created_at);
-            Assert.AreEqual(typeof(TwitterEntities), user.entities.GetType());
-            Assert.AreEqual("https://url", user.url);
-            Assert.AreEqual("screen-name", user.screen_name);
-            Assert.IsTrue(user._protected);
-            Assert.IsTrue(user.contributors_enabled);
-            Assert.IsTrue(user.default_profile);
-            Assert.IsTrue(user.default_profile_image);
-            Assert.AreEqual("user-description", user.description);
-            Assert.AreEqual(3, user.favourites_count);
-            Assert.IsTrue(user.follow_request_sent);
-            Assert.AreEqual(13, user.followers_count);
-            Assert.IsTrue(user.following);
-            Assert.AreEqual(23, user.friends_count);
-            Assert.IsTrue(user.geo_enabled);
-            Assert.IsTrue(user.has_extended_profile);
-            Assert.IsTrue(user.is_translation_enabled);
-            Assert.IsTrue(user.is_translator);
-            Assert.AreEqual("en_US", user.lang);
-            Assert.AreEqual(33, user.listed_count);
-            Assert.AreEqual("location", user.location);
-            Assert.AreEqual("user-name", user.name);
-            Assert.IsTrue(user.notifications);
-            Assert.AreEqual("green", user.profile_background_color);
-            Assert.AreEqual("http://background-image-url", user.profile_background_image_url);
-            Assert.AreEqual("https://background-image-url", user.profile_background_image_url_https);
-            Assert.IsTrue(user.profile_background_tile);
-            Assert.AreEqual("https://profile-banner-url", user.profile_banner_url);
-            Assert.AreEqual("http://profile-image-url", user.profile_image_url);
-            Assert.AreEqual("https://profile-image-url", user.profile_image_url_https);
-            Assert.AreEqual("red", user.profile_link_color);
-            Assert.AreEqual("black", user.profile_sidebar_border_color);
-            Assert.AreEqual("white", user.profile_sidebar_fill_color);
-            Assert.AreEqual("black", user.profile_text_color);
-            Assert.IsTrue(user.profile_use_background_image);
-            Assert.AreEqual(5, user.statuses_count);
-            Assert.AreEqual("GMT", user.time_zone);
-            Assert.AreEqual("translator", user.translator_type);
-            Assert.AreEqual("-3", user.utc_offset);
-            Assert.IsTrue(user.verified);
+            Assert.AreEqual(1, twitterFullUser.id);
+            Assert.AreEqual("id-1", twitterFullUser.id_str);
+            Assert.AreEqual("2020-09-01T15:07:18Z", twitterFullUser.created_at);
+            Assert.AreEqual(typeof(TwitterEntities), twitterFullUser.entities.GetType());
+            Assert.AreEqual("https://url", twitterFullUser.url);
+            Assert.AreEqual("screen-name", twitterFullUser.screen_name);
+            Assert.IsTrue(twitterFullUser._protected);
+            Assert.IsTrue(twitterFullUser.contributors_enabled);
+            Assert.IsTrue(twitterFullUser.default_profile);
+            Assert.IsTrue(twitterFullUser.default_profile_image);
+            Assert.AreEqual("user-description", twitterFullUser.description);
+            Assert.AreEqual(3, twitterFullUser.favourites_count);
+            Assert.IsTrue(twitterFullUser.follow_request_sent);
+            Assert.AreEqual(13, twitterFullUser.followers_count);
+            Assert.IsTrue(twitterFullUser.following);
+            Assert.AreEqual(23, twitterFullUser.friends_count);
+            Assert.IsTrue(twitterFullUser.geo_enabled);
+            Assert.IsTrue(twitterFullUser.has_extended_profile);
+            Assert.IsTrue(twitterFullUser.is_translation_enabled);
+            Assert.IsTrue(twitterFullUser.is_translator);
+            Assert.AreEqual("en_US", twitterFullUser.lang);
+            Assert.AreEqual(33, twitterFullUser.listed_count);
+            Assert.AreEqual("location", twitterFullUser.location);
+            Assert.AreEqual("user-name", twitterFullUser.name);
+            Assert.IsTrue(twitterFullUser.notifications);
+            Assert.AreEqual("green", twitterFullUser.profile_background_color);
+            Assert.AreEqual("http://background-image-url", twitterFullUser.profile_background_image_url);
+            Assert.AreEqual("https://background-image-url", twitterFullUser.profile_background_image_url_https);
+            Assert.IsTrue(twitterFullUser.profile_background_tile);
+            Assert.AreEqual("https://profile-banner-url", twitterFullUser.profile_banner_url);
+            Assert.AreEqual("http://profile-image-url", twitterFullUser.profile_image_url);
+            Assert.AreEqual("https://profile-image-url", twitterFullUser.profile_image_url_https);
+            Assert.AreEqual("red", twitterFullUser.profile_link_color);
+            Assert.AreEqual("black", twitterFullUser.profile_sidebar_border_color);
+            Assert.AreEqual("white", twitterFullUser.profile_sidebar_fill_color);
+            Assert.AreEqual("black", twitterFullUser.profile_text_color);
+            Assert.IsTrue(twitterFullUser.profile_use_background_image);
+            Assert.AreEqual(5, twitterFullUser.statuses_count);
+            Assert.AreEqual("GMT", twitterFullUser.time_zone);
+            Assert.AreEqual("translator", twitterFullUser.translator_type);
+            Assert.AreEqual("-3", twitterFullUser.utc_offset);
+            Assert.IsTrue(twitterFullUser.verified);
         }
     }
 }

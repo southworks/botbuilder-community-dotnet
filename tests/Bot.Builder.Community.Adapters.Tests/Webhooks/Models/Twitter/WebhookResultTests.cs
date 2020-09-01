@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Bot.Builder.Community.Adapters.Twitter.Webhooks.Models.Twitter;
@@ -12,7 +15,7 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
         [TestMethod]
         public void WebhookResultPropertiesShouldBeSetSuccessfully()
         {
-            var webhookResult = new WebhookResult()
+            var webhookResult = new WebhookResult
             {
                 Environments = new List<EnvironmentRegistration>()
             };

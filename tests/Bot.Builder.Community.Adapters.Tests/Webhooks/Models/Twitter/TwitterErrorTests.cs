@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Bot.Builder.Community.Adapters.Twitter.Webhooks.Models.Twitter;
 
@@ -11,11 +14,11 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
         [TestMethod]
         public void TwitterErrorToStringShouldReturnValue()
         {
-            var error = new TwitterError()
+            var error = new TwitterError
             {
-                Errors = new List<Error>()
+                Errors = new List<Error>
                 {
-                    new Error() { Code = 3, Message = "error-message" }
+                    new Error { Code = 3, Message = "error-message" }
                 }
             };
 

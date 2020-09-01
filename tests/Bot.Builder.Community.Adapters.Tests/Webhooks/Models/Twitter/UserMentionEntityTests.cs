@@ -1,4 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Bot.Builder.Community.Adapters.Twitter.Webhooks.Models.Twitter;
 
 namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
@@ -10,7 +13,7 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
         [TestMethod]
         public void UserMentionEntityPropertiesShouldBeSetSuccessfully()
         {
-            var userMention = new UserMentionEntity()
+            var userMention = new UserMentionEntity
             {
                 id = 1,
                 id_str = "id-1",
