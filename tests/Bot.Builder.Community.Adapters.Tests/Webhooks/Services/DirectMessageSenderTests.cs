@@ -60,7 +60,6 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests
         public async Task SendWithLongMessageShouldReturnUnauthorized()
         {
             var sender = new DirectMessageSender(_testOptions.Object.Value);
-
             var result = await sender.Send("test", "text message");
 
             Assert.AreEqual(89, result.Error.Errors[0].Code);
@@ -70,9 +69,7 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests
         public async Task SendAsyncWithLongMessageShouldReturnUnauthorized()
         {
             var sender = new DirectMessageSender(_testOptions.Object.Value);
-
             var message = new NewDirectMessageObject();
-
             var result = await sender.SendAsync(message);
 
             Assert.AreEqual(89, result.Error.Errors[0].Code);
