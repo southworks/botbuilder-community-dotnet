@@ -4,19 +4,17 @@ using Bot.Builder.Community.Adapters.Twitter.Webhooks.Models;
 using Bot.Builder.Community.Adapters.Twitter.Webhooks.Models.Twitter;
 using Bot.Builder.Community.Adapters.Twitter.Webhooks.Services;
 using Microsoft.Extensions.Options;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Xunit;
 
 namespace Bot.Builder.Community.Adapters.Twitter.Tests
 {
-    [TestClass]
-    [TestCategory("Twitter")]
+    [Trait("TestCategory", "Twitter")]
     public class DirectMessageSenderTests
     {
-        private static readonly Mock<IOptions<TwitterOptions>> _testOptions = new Mock<IOptions<TwitterOptions>>();
+        private static readonly Mock<IOptions<TwitterOptions>> TestOptions = new Mock<IOptions<TwitterOptions>>();
 
-        [ClassInitialize]
-        public static void Initialize(TestContext testContext)
+        public DirectMessageSenderTests()
         {
             var options = new TwitterOptions
             {
@@ -29,50 +27,50 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests
                 Tier = TwitterAccountApi.PremiumFree
             };
 
-            _testOptions.SetupGet(x => x.Value).Returns(options);
+            TestOptions.SetupGet(x => x.Value).Returns(options);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task SendWithEmptyMessageShouldFail()
         {
-            var sender = new DirectMessageSender(_testOptions.Object.Value);
+            var sender = new DirectMessageSender(TestOptions.Object.Value);
 
-            await Assert.ThrowsExceptionAsync<TwitterException>(
+            await Assert.ThrowsAsync<TwitterException>(
                 async () =>
             {
                 await sender.Send("test", string.Empty);
-            }, "You can't send an empty message.");
+            });
         }
 
-        [TestMethod]
+        [Fact]
         public async Task SendWithLongMessageShouldFail()
         {
-            var sender = new DirectMessageSender(_testOptions.Object.Value);
+            var sender = new DirectMessageSender(TestOptions.Object.Value);
 
-            await Assert.ThrowsExceptionAsync<TwitterException>(
+            await Assert.ThrowsAsync<TwitterException>(
                 async () =>
                 {
                     await sender.Send("test", new String('a', 141));
-                }, "You can't send more than 140 char using this end point, use SendAsync instead.");
+                });
         }
 
-        [TestMethod]
+        [Fact]
         public async Task SendShouldReturnUnauthorized()
         {
-            var sender = new DirectMessageSender(_testOptions.Object.Value);
+            var sender = new DirectMessageSender(TestOptions.Object.Value);
             var result = await sender.Send("test", "text message");
 
-            Assert.AreEqual(89, result.Error.Errors[0].Code);
+            Assert.Equal(89, result.Error.Errors[0].Code);
         }
 
-        [TestMethod]
+        [Fact]
         public async Task SendAsyncShouldReturnUnauthorized()
         {
-            var sender = new DirectMessageSender(_testOptions.Object.Value);
+            var sender = new DirectMessageSender(TestOptions.Object.Value);
             var message = new NewDirectMessageObject();
             var result = await sender.SendAsync(message);
 
-            Assert.AreEqual(89, result.Error.Errors[0].Code);
+            Assert.Equal(89, result.Error.Errors[0].Code);
         }
     }
 }
