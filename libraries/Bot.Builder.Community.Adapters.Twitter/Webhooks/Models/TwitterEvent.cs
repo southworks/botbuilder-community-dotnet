@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("Bot.Builder.Community.Adapters.Twitter.Tests")]
 
 namespace Bot.Builder.Community.Adapters.Twitter.Webhooks.Models
 {
