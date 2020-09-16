@@ -1,10 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Options;
 using Moq;
-using System;
 using Xunit;
 
 namespace Bot.Builder.Community.Adapters.Twitter.Tests
