@@ -1,15 +1,14 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace Bot.Builder.Community.Adapters.Twitter.Tests
 {
-    [TestClass]
-    [TestCategory("Twitter")]
+    [Trait("TestCategory", "Twitter")]
     public class TwitterOptionsTests
     {
-        [TestMethod]
+        [Fact]
         public void TwitterOptionsPropertiesShouldBeSetSuccessfully()
         {
             var options = new TwitterOptions
@@ -25,17 +24,17 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests
                 WebhookUri = "uri",
             };
 
-            Assert.AreEqual("bot-username", options.BotUsername);
-            Assert.AreEqual("usernames", options.AllowedUsernames[0]);
-            Assert.AreEqual(TwitterAccountApi.PremiumFree, options.Tier);
-            Assert.IsTrue(options.IsValid);
-            Assert.AreEqual("consumer-key", options.ConsumerKey);
-            Assert.AreEqual("consumer-secret", options.ConsumerSecret);
-            Assert.AreEqual("access-token", options.AccessToken);
-            Assert.AreEqual("access-secret", options.AccessSecret);
-            Assert.AreEqual("env", options.Environment);
-            Assert.AreEqual("uri", options.WebhookUri);
-            Assert.IsTrue(options.AllowedUsernamesConfigured());
+            Assert.Equal("bot-username", options.BotUsername);
+            Assert.Equal("usernames", options.AllowedUsernames[0]);
+            Assert.Equal(TwitterAccountApi.PremiumFree, options.Tier);
+            Assert.True(options.IsValid);
+            Assert.Equal("consumer-key", options.ConsumerKey);
+            Assert.Equal("consumer-secret", options.ConsumerSecret);
+            Assert.Equal("access-token", options.AccessToken);
+            Assert.Equal("access-secret", options.AccessSecret);
+            Assert.Equal("env", options.Environment);
+            Assert.Equal("uri", options.WebhookUri);
+            Assert.True(options.AllowedUsernamesConfigured());
         }
     }
 }
