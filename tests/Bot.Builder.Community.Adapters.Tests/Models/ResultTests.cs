@@ -4,33 +4,32 @@
 using System.Collections.Generic;
 using Bot.Builder.Community.Adapters.Twitter.Webhooks.Models;
 using Bot.Builder.Community.Adapters.Twitter.Webhooks.Models.Twitter;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
+using Xunit;
 
 namespace Bot.Builder.Community.Adapters.Twitter.Tests.Models
 {
-    [TestClass]
-    [TestCategory("Twitter")]
+    [Trait("TestCategory", "Twitter")]
     public class ResultTests
     {
-        [TestMethod]
+        [Fact]
         public void ConstructorSucceeds()
         {
             var result = new Result<bool>();
 
-            Assert.IsFalse(result.Success);
+            Assert.False(result.Success);
         }
 
-        [TestMethod]
+        [Fact]
         public void ConstructorWithDataSucceeds()
         {
             var result = new Result<bool>(false);
 
-            Assert.IsTrue(result.Success);
-            Assert.IsFalse(result.Data);
+            Assert.True(result.Success);
+            Assert.False(result.Data);
         }
 
-        [TestMethod]
+        [Fact]
         public void ConstructorWithTwitterErrorSucceeds()
         {
             var errors = new List<Error>
@@ -45,8 +44,8 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Models
 
             var result = new Result<bool>(twitterError);
 
-            Assert.IsFalse(result.Success);
-            Assert.AreEqual(twitterError, result.Error);
+            Assert.False(result.Success);
+            Assert.Equal(twitterError, result.Error);
         }
     }
 }
