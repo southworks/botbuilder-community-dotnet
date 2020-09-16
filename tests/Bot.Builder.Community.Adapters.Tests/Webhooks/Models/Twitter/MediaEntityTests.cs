@@ -1,16 +1,15 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Bot.Builder.Community.Adapters.Twitter.Webhooks.Models.Twitter;
+using Xunit;
 
 namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
 {
-    [TestClass]
-    [TestCategory("Twitter")]
+    [Trait("TestCategory", "Twitter")]
     public class MediaEntityTests
     {
-        [TestMethod]
+        [Fact]
         public void MediaEntityPropertiesShouldBeSetSuccessfully()
         {
             var mediaEntity = new MediaEntity
@@ -33,31 +32,31 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
                 }
             };
 
-            Assert.AreEqual(1, mediaEntity.id);
-            Assert.AreEqual("id-1", mediaEntity.id_str);
-            Assert.AreEqual("https://display-url", mediaEntity.display_url);
-            Assert.AreEqual("https://expanded-url", mediaEntity.expanded_url);
-            Assert.AreEqual("http://media-url", mediaEntity.media_url);
-            Assert.AreEqual("https://media-url", mediaEntity.media_url_https);
-            Assert.AreEqual("https://url", mediaEntity.url);
-            Assert.AreEqual("media-type", mediaEntity.type);
-            Assert.AreEqual(3, mediaEntity.indices.Length);
+            Assert.Equal(1, mediaEntity.id);
+            Assert.Equal("id-1", mediaEntity.id_str);
+            Assert.Equal("https://display-url", mediaEntity.display_url);
+            Assert.Equal("https://expanded-url", mediaEntity.expanded_url);
+            Assert.Equal("http://media-url", mediaEntity.media_url);
+            Assert.Equal("https://media-url", mediaEntity.media_url_https);
+            Assert.Equal("https://url", mediaEntity.url);
+            Assert.Equal("media-type", mediaEntity.type);
+            Assert.Equal(3, mediaEntity.indices.Length);
             // TwitterSizeThumb
-            Assert.AreEqual(128, mediaEntity.sizes.thumb.h);
-            Assert.AreEqual(72, mediaEntity.sizes.thumb.w);
-            Assert.AreEqual("resize", mediaEntity.sizes.thumb.resize);
+            Assert.Equal(128, mediaEntity.sizes.thumb.h);
+            Assert.Equal(72, mediaEntity.sizes.thumb.w);
+            Assert.Equal("resize", mediaEntity.sizes.thumb.resize);
             // TwitterSizeSmall
-            Assert.AreEqual(640, mediaEntity.sizes.small.h);
-            Assert.AreEqual(360, mediaEntity.sizes.small.w);
-            Assert.AreEqual("resize", mediaEntity.sizes.small.resize);
+            Assert.Equal(640, mediaEntity.sizes.small.h);
+            Assert.Equal(360, mediaEntity.sizes.small.w);
+            Assert.Equal("resize", mediaEntity.sizes.small.resize);
             // TwitterSizeMedium
-            Assert.AreEqual(1280, mediaEntity.sizes.medium.h);
-            Assert.AreEqual(720, mediaEntity.sizes.medium.w);
-            Assert.AreEqual("resize", mediaEntity.sizes.medium.resize);
+            Assert.Equal(1280, mediaEntity.sizes.medium.h);
+            Assert.Equal(720, mediaEntity.sizes.medium.w);
+            Assert.Equal("resize", mediaEntity.sizes.medium.resize);
             // TwitterSizeLarge
-            Assert.AreEqual(1920, mediaEntity.sizes.large.h);
-            Assert.AreEqual(1080, mediaEntity.sizes.large.w);
-            Assert.AreEqual("resize", mediaEntity.sizes.large.resize);
+            Assert.Equal(1920, mediaEntity.sizes.large.h);
+            Assert.Equal(1080, mediaEntity.sizes.large.w);
+            Assert.Equal("resize", mediaEntity.sizes.large.resize);
         }
     }
 }

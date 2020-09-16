@@ -2,17 +2,16 @@
 // Licensed under the MIT License.
 
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
 using Bot.Builder.Community.Adapters.Twitter.Webhooks.Models.Twitter;
+using Newtonsoft.Json;
+using Xunit;
 
 namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
 {
-    [TestClass]
-    [TestCategory("Twitter")]
+    [Trait("TestCategory", "Twitter")]
     public class EnvironmentRegistrationTests
     {
-        [TestMethod]
+        [Fact]
         public void EnvironmentRegistrationPropertiesShouldBeSetSuccessfully()
         {
             var environmentRegistration = new EnvironmentRegistration
@@ -23,8 +22,8 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
 
             var jsonResult = JsonConvert.DeserializeObject<EnvironmentRegistration>(JsonConvert.SerializeObject(environmentRegistration));
 
-            Assert.AreEqual(environmentRegistration.Name, jsonResult.Name);
-            Assert.AreEqual(environmentRegistration.Webhooks.GetType(), jsonResult.Webhooks.GetType());
+            Assert.Equal(environmentRegistration.Name, jsonResult.Name);
+            Assert.Equal(environmentRegistration.Webhooks.GetType(), jsonResult.Webhooks.GetType());
         }
     }
 }

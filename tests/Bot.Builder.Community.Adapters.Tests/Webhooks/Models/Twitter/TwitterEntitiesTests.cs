@@ -2,16 +2,15 @@
 // Licensed under the MIT License.
 
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Bot.Builder.Community.Adapters.Twitter.Webhooks.Models.Twitter;
+using Xunit;
 
 namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
 {
-    [TestClass]
-    [TestCategory("Twitter")]
+    [Trait("TestCategory", "Twitter")]
     public class TwitterEntitiesTests
     {
-        [TestMethod]
+        [Fact]
         public void TwitterEntitiesPropertiesShouldBeSetSuccessfully()
         {
             var twitterEntities = new TwitterEntities
@@ -23,11 +22,11 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
                 user_mentions = new List<UserMentionEntity>()
             };
 
-            Assert.AreEqual(typeof(List<MediaEntity>), twitterEntities.media.GetType());
-            Assert.AreEqual(typeof(List<HashtagEntity>), twitterEntities.hashtags.GetType());
-            Assert.AreEqual(typeof(List<SymbolEntity>), twitterEntities.symbols.GetType());
-            Assert.AreEqual(typeof(List<UrlEntity>), twitterEntities.urls.GetType());
-            Assert.AreEqual(typeof(List<UserMentionEntity>), twitterEntities.user_mentions.GetType());
+            Assert.Equal(typeof(List<MediaEntity>), twitterEntities.media.GetType());
+            Assert.Equal(typeof(List<HashtagEntity>), twitterEntities.hashtags.GetType());
+            Assert.Equal(typeof(List<SymbolEntity>), twitterEntities.symbols.GetType());
+            Assert.Equal(typeof(List<UrlEntity>), twitterEntities.urls.GetType());
+            Assert.Equal(typeof(List<UserMentionEntity>), twitterEntities.user_mentions.GetType());
         }
     }
 }

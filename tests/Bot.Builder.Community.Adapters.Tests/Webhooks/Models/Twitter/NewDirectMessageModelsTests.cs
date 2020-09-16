@@ -2,17 +2,16 @@
 // Licensed under the MIT License.
 
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
 using Bot.Builder.Community.Adapters.Twitter.Webhooks.Models.Twitter;
+using Newtonsoft.Json;
+using Xunit;
 
 namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
 {
-    [TestClass]
-    [TestCategory("Twitter")]
+    [Trait("TestCategory", "Twitter")]
     public class NewDirectMessageModelsTests
     {
-        [TestMethod]
+        [Fact]
         public void EventPropertiesShouldBeSetSuccessfully()
         {
             var twitterEvent = new Event
@@ -23,11 +22,11 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
 
             var jsonResult = JsonConvert.DeserializeObject<Event>(JsonConvert.SerializeObject(twitterEvent));
 
-            Assert.AreEqual(twitterEvent.EventType, jsonResult.EventType);
-            Assert.AreEqual(twitterEvent.MessageCreate.GetType(), jsonResult.MessageCreate.GetType());
+            Assert.Equal(twitterEvent.EventType, jsonResult.EventType);
+            Assert.Equal(twitterEvent.MessageCreate.GetType(), jsonResult.MessageCreate.GetType());
         }
 
-        [TestMethod]
+        [Fact]
         public void NewEvent_QuickReplyPropertiesShouldBeSetSuccessfully()
         {
             var eventQuickReply = new NewEvent_QuickReply
@@ -37,10 +36,10 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
 
             var jsonResult = JsonConvert.DeserializeObject<NewEvent_QuickReply>(JsonConvert.SerializeObject(eventQuickReply));
 
-            Assert.AreEqual(eventQuickReply.Options.GetType(), jsonResult.Options.GetType());
+            Assert.Equal(eventQuickReply.Options.GetType(), jsonResult.Options.GetType());
         }
 
-        [TestMethod]
+        [Fact]
         public void NewEvent_QuickReplyOptionPropertiesShouldBeSetSuccessfully()
         {
             var eventQuickReplyOption = new NewEvent_QuickReplyOption
@@ -50,10 +49,10 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
 
             var jsonResult = JsonConvert.DeserializeObject<NewEvent_QuickReplyOption>(JsonConvert.SerializeObject(eventQuickReplyOption));
 
-            Assert.AreEqual(eventQuickReplyOption.Label, jsonResult.Label);
+            Assert.Equal(eventQuickReplyOption.Label, jsonResult.Label);
         }
 
-        [TestMethod]
+        [Fact]
         public void NewEvent_MessageCreatePropertiesShouldBeSetSuccessfully()
         {
             var eventMessageCreate = new NewEvent_MessageCreate
@@ -64,11 +63,11 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
 
             var jsonResult = JsonConvert.DeserializeObject<NewEvent_MessageCreate>(JsonConvert.SerializeObject(eventMessageCreate));
 
-            Assert.AreEqual(eventMessageCreate.MessageData.GetType(), jsonResult.MessageData.GetType());
-            Assert.AreEqual(eventMessageCreate.target.GetType(), jsonResult.target.GetType());
+            Assert.Equal(eventMessageCreate.MessageData.GetType(), jsonResult.MessageData.GetType());
+            Assert.Equal(eventMessageCreate.target.GetType(), jsonResult.target.GetType());
         }
 
-        [TestMethod]
+        [Fact]
         public void NewEvent_MessageDataPropertiesShouldBeSetSuccessfully()
         {
             var eventMessageData = new NewEvent_MessageData
@@ -79,8 +78,8 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
 
             var jsonResult = JsonConvert.DeserializeObject<NewEvent_MessageData>(JsonConvert.SerializeObject(eventMessageData));
 
-            Assert.AreEqual(eventMessageData.QuickReply.GetType(), jsonResult.QuickReply.GetType());
-            Assert.AreEqual(eventMessageData.Text, jsonResult.Text);
+            Assert.Equal(eventMessageData.QuickReply.GetType(), jsonResult.QuickReply.GetType());
+            Assert.Equal(eventMessageData.Text, jsonResult.Text);
         }
     }
 }

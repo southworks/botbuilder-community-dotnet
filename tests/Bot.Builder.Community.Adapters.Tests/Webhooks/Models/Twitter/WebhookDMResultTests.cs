@@ -1,19 +1,18 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Bot.Builder.Community.Adapters.Twitter.Webhooks.Models.Twitter;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 using Bot.Builder.Community.Adapters.Twitter.Webhooks.Models;
+using Bot.Builder.Community.Adapters.Twitter.Webhooks.Models.Twitter;
+using Newtonsoft.Json;
+using Xunit;
 
 namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
 {
-    [TestClass]
-    [TestCategory("Twitter")]
+    [Trait("TestCategory", "Twitter")]
     public class WebhookDMResultTests
     {
-        [TestMethod]
+        [Fact]
         public void WebhookDmResultPropertiesShouldBeSetSuccessfully()
         {
             var webhookDmResult = new WebhookDMResult
@@ -24,11 +23,11 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
 
             var jsonResult = JsonConvert.DeserializeObject<WebhookDMResult>(JsonConvert.SerializeObject(webhookDmResult));
 
-            Assert.AreEqual(webhookDmResult.Users.GetType(), jsonResult.Users.GetType());
-            Assert.AreEqual(webhookDmResult.Events.GetType(), jsonResult.Events.GetType());
+            Assert.Equal(webhookDmResult.Users.GetType(), jsonResult.Users.GetType());
+            Assert.Equal(webhookDmResult.Events.GetType(), jsonResult.Events.GetType());
         }
 
-        [TestMethod]
+        [Fact]
         public void WebhookDmResultShouldConvertToDirectMessageEventSuccessfully()
         {
             DirectMessageEvent dmEvent = new WebhookDMResult
@@ -64,15 +63,15 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
                 }
             };
 
-            Assert.AreEqual("event-id", dmEvent.Id);
-            Assert.AreEqual(TwitterEventType.MessageCreate, dmEvent.Type);
-            Assert.AreEqual(1, dmEvent.MessageEntities.media[0].id);
-            Assert.AreEqual("test-text", dmEvent.MessageText);
-            Assert.AreEqual("sender-id", dmEvent.Sender.Id);
-            Assert.AreEqual("recipient-id", dmEvent.Recipient.Id);
+            Assert.Equal("event-id", dmEvent.Id);
+            Assert.Equal(TwitterEventType.MessageCreate, dmEvent.Type);
+            Assert.Equal(1, dmEvent.MessageEntities.media[0].id);
+            Assert.Equal("test-text", dmEvent.MessageText);
+            Assert.Equal("sender-id", dmEvent.Sender.Id);
+            Assert.Equal("recipient-id", dmEvent.Recipient.Id);
         }
 
-        [TestMethod]
+        [Fact]
         public void NewDmResultPropertiesShouldBeSetSuccessfully()
         {
             var dmResult = new NewDmResult
@@ -80,10 +79,10 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
                 @event = new DMEvent()
             };
 
-            Assert.AreEqual(typeof(DMEvent), dmResult.@event.GetType());
+            Assert.Equal(typeof(DMEvent), dmResult.@event.GetType());
         }
 
-        [TestMethod]
+        [Fact]
         public void MessagePropertiesShouldBeSetSuccessfully()
         {
             var message = new Message
@@ -93,12 +92,12 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
                 sender_id = "sender-id"
             };
 
-            Assert.AreEqual("sender-id", message.sender_id);
-            Assert.AreEqual(typeof(Target), message.target.GetType());
-            Assert.AreEqual(typeof(Message_Data), message.message_data.GetType());
+            Assert.Equal("sender-id", message.sender_id);
+            Assert.Equal(typeof(Target), message.target.GetType());
+            Assert.Equal(typeof(Message_Data), message.message_data.GetType());
         }
 
-        [TestMethod]
+        [Fact]
         public void Message_DataPropertiesShouldBeSetSuccessfully()
         {
             var messageData = new Message_Data
@@ -108,12 +107,12 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
                 attachment = new Attachment()
             };
 
-            Assert.AreEqual("test-text", messageData.text);
-            Assert.AreEqual(typeof(TwitterEntities), messageData.entities.GetType());
-            Assert.AreEqual(typeof(Attachment), messageData.attachment.GetType());
+            Assert.Equal("test-text", messageData.text);
+            Assert.Equal(typeof(TwitterEntities), messageData.entities.GetType());
+            Assert.Equal(typeof(Attachment), messageData.attachment.GetType());
         }
 
-        [TestMethod]
+        [Fact]
         public void AttachmentPropertiesShouldBeSetSuccessfully()
         {
             var attachment = new Attachment
@@ -122,12 +121,12 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
                 media = new MediaEntity()
             };
 
-            Assert.AreEqual("attachment-type", attachment.type);
-            Assert.AreEqual(typeof(MediaEntity), attachment.media.GetType());
+            Assert.Equal("attachment-type", attachment.type);
+            Assert.Equal(typeof(MediaEntity), attachment.media.GetType());
         }
 
 
-        [TestMethod]
+        [Fact]
         public void DmEventPropertiesShouldBeSetSuccessfully()
         {
             var dmEvent = new DMEvent
@@ -138,13 +137,13 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
                 message_create = new Message()
             };
 
-            Assert.AreEqual("event-id", dmEvent.id);
-            Assert.AreEqual("event-type", dmEvent.type);
-            Assert.AreEqual(3000, dmEvent.created_timestamp);
-            Assert.AreEqual(typeof(Message), dmEvent.message_create.GetType());
+            Assert.Equal("event-id", dmEvent.id);
+            Assert.Equal("event-type", dmEvent.type);
+            Assert.Equal(3000, dmEvent.created_timestamp);
+            Assert.Equal(typeof(Message), dmEvent.message_create.GetType());
         }
 
-        [TestMethod]
+        [Fact]
         public void DmEventInstanceShouldConvertToDirectMessageResultSuccessfully()
         {
             DirectMessageResult dmResult = new DMEvent
@@ -161,10 +160,10 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
                 }
             };
 
-            Assert.AreEqual("event-id", dmResult.Id);
-            Assert.AreEqual("test-text", dmResult.MessageText);
-            Assert.AreEqual("sender-id", dmResult.SenderId);
-            Assert.AreEqual("recipient-id", dmResult.RecipientId);
+            Assert.Equal("event-id", dmResult.Id);
+            Assert.Equal("test-text", dmResult.MessageText);
+            Assert.Equal("sender-id", dmResult.SenderId);
+            Assert.Equal("recipient-id", dmResult.RecipientId);
         }
     }
 }

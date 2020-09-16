@@ -2,16 +2,15 @@
 // Licensed under the MIT License.
 
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Bot.Builder.Community.Adapters.Twitter.Webhooks.Models.Twitter;
+using Xunit;
 
 namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
 {
-    [TestClass]
-    [TestCategory("Twitter")]
+    [Trait("TestCategory", "Twitter")]
     public class TwitterErrorTests
     {
-        [TestMethod]
+        [Fact]
         public void TwitterErrorToStringShouldReturnValue()
         {
             var error = new TwitterError
@@ -22,7 +21,7 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
                 }
             };
 
-            Assert.AreEqual("Error Code: 3, Error Message: error-message", error.ToString());
+            Assert.Equal("Error Code: 3, Error Message: error-message", error.ToString());
         }
     }
 }
