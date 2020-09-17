@@ -1,81 +1,83 @@
-﻿using System.Collections.Generic;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Collections.Generic;
 using Bot.Builder.Community.Adapters.Twitter.Webhooks.Models;
 using Bot.Builder.Community.Adapters.Twitter.Webhooks.Models.Twitter;
 using Microsoft.Bot.Schema;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace Bot.Builder.Community.Adapters.Twitter.Tests
 {
-    [TestClass]
-    [TestCategory("Twitter")]
+    [Trait("TestCategory", "Twitter")]
     public class ActivityExtensionsTests
     {
-        [TestMethod]
+        [Fact]
         public void AsTwitterMessageWithEmptyMessageShouldFail()
         {
-            var activity = new Activity()
+            var activity = new Activity
             {
                 Text = null,
                 Type = ActivityTypes.Message
             };
 
-            Assert.ThrowsException<TwitterException>(
+            Assert.Throws<TwitterException>(
                 () =>
             {
                 activity.AsTwitterMessage();
-            }, "You can't send an empty message.");
+            });
         }
 
-        [TestMethod]
+        [Fact]
         public void AsTwitterMessageWithLongMessageShouldFail()
         {
-            var activity = new Activity()
+            var activity = new Activity
             {
                 Text = new string('a', 10001),
                 Type = ActivityTypes.Message
             };
 
-            Assert.ThrowsException<TwitterException>(
+            Assert.Throws<TwitterException>(
                 () =>
             {
                 activity.AsTwitterMessage();
-            }, "Invalid message, the length of the message should be less than 10000 chars.");
+            });
         }
 
-        [TestMethod]
+        [Fact]
         public void AsTwitterMessageShouldReturnNewDirectMessage()
         {
-            var activity = new Activity()
+            var activity = new Activity
             {
                 Text = "test",
                 Type = ActivityTypes.Message,
-                Recipient = new ChannelAccount()
+                Recipient = new ChannelAccount
                 {
                     Id = null
                 }
             };
 
-            Assert.IsInstanceOfType(activity.AsTwitterMessage(), typeof(NewDirectMessageObject));
+            Assert.IsType<NewDirectMessageObject>(activity.AsTwitterMessage());
         }
 
-        [TestMethod]
+        [Fact]
         public void AsTwitterMessageShouldReturnNewDirectMessageWithQuickReply()
         {
-            var activity = new Activity()
+            var activity = new Activity
             {
                 Text = "test",
                 Type = ActivityTypes.Message,
-                Recipient = new ChannelAccount()
+                Recipient = new ChannelAccount
                 {
                     Id = null
                 },
-                SuggestedActions = new SuggestedActions()
+                SuggestedActions = new SuggestedActions
                 {
                     Actions = new List<CardAction> { new CardAction(ActionTypes.OpenUrl, "Get Started", value: "https://docs.microsoft.com/bot-framework") }
                 }
             };
 
-            Assert.IsInstanceOfType(activity.AsTwitterMessage().Event.MessageCreate.MessageData.QuickReply, typeof(NewEvent_QuickReply));
+            Assert.IsType<NewEvent_QuickReply>(activity.AsTwitterMessage().Event.MessageCreate.MessageData.QuickReply);
         }
     }
 }
