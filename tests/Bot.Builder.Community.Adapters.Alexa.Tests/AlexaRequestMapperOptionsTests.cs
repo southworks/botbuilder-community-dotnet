@@ -9,6 +9,17 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
     public class AlexaRequestMapperOptionsTests
     {
         [Fact]
+        public void ConstructorWithDefaultValuesShouldSuccess()
+        {
+            var alexaRequestMapperOptions = new AlexaRequestMapperOptions();
+
+            Assert.Equal("alexa", alexaRequestMapperOptions.ChannelId);
+            Assert.Null(alexaRequestMapperOptions.ServiceUrl);
+            Assert.Equal("phrase", alexaRequestMapperOptions.DefaultIntentSlotName);
+            Assert.True(alexaRequestMapperOptions.ShouldEndSessionByDefault);
+        }
+
+        [Fact]
         public void AlexaRequestMapperOptionsShouldBeSetSuccessfully()
         {
             var alexaRequestMapperOptions = new AlexaRequestMapperOptions
