@@ -9,7 +9,7 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
     public class AlexaRequestMapperOptionsTests
     {
         [Fact]
-        public void ConstructorWithDefaultValuesShouldSuccess()
+        public void ConstructorWithDefaultValuesShouldSucceed()
         {
             var alexaRequestMapperOptions = new AlexaRequestMapperOptions();
 
