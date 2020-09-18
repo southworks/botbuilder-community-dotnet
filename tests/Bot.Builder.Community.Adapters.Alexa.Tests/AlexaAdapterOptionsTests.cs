@@ -8,7 +8,7 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
     public class AlexaAdapterOptionsTests
     {
         [Fact]
-        public void ConstructorWithDefaultValuesShouldSuccess()
+        public void ConstructorWithDefaultValuesShouldSucceed()
         {
             var alexaOptions = new AlexaAdapterOptions();
 
@@ -18,7 +18,7 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
         }
 
         [Fact]
-        public void ConstructorWithValuesShouldSuccess()
+        public void ConstructorWithValuesShouldSucceed()
         {
             var alexaOptions = new AlexaAdapterOptions
             {
