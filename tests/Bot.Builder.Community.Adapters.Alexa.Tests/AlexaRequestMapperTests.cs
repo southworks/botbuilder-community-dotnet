@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Security;
 using System.Text;
 using Alexa.NET.ConnectionTasks.Inputs;
 using Alexa.NET.Request;
@@ -17,6 +16,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
+using Microsoft.Rest;
 using Moq;
 using Newtonsoft.Json;
 using Xunit;
@@ -25,6 +25,18 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
 {
     public class AlexaRequestMapperTests
     {
+        public static IEnumerable<object[]> RequestsMemberData => new[]
+        {
+            new object[] { new SessionResumedRequest() },
+            new object[] { new AccountLinkSkillEventRequest() },
+            new object[] { new AudioPlayerRequest() },
+            new object[] { new DisplayElementSelectedRequest() },
+            new object[] { new PermissionSkillEventRequest() },
+            new object[] { new PlaybackControllerRequest() },
+            new object[] { new SkillEventRequest() },
+            new object[] { new SystemExceptionRequest() },
+        };
+
         [Fact]
         public void ConstructorWithNoArgumentsShouldSucceed()
         {
@@ -813,6 +825,114 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
                                 NullValueHandling = NullValueHandling.Ignore,
                                 Formatting = Formatting.Indented
                             });
+        }
+
+        [Fact]
+        public void RequestToActivityWithNoRequestShouldThrowValidationException()
+        {
+            var skillRequest = new SkillRequest();
+            var alexaMapper = new AlexaRequestMapper();
+
+            Assert.Throws<ValidationException>(() => alexaMapper.RequestToActivity(skillRequest));
+        }
+
+        [Fact]
+        public void RequestToActivityWithIntentRequestShouldReturnEndOfConversationActivity()
+        {
+            var skillRequest = new SkillRequest
+            {
+                Request = new IntentRequest
+                {
+                    Intent = new Intent { Name = "AMAZON.StopIntent", Slots = null }
+                },
+                Context = new Context
+                {
+                    System = new AlexaSystem { Application = new Application(), User = new User() }
+                },
+            };
+
+            var alexaMapper = new AlexaRequestMapper();
+            var result = alexaMapper.RequestToActivity(skillRequest);
+
+            Assert.Equal(ActivityTypes.EndOfConversation, result.Type);
+        }
+
+        [Fact]
+        public void RequestToActivityWithIntentRequestShouldReturnEventActivity()
+        {
+            var skillRequest = new SkillRequest
+            {
+                Request = new IntentRequest
+                {
+                    Intent = new Intent { Slots = null }
+                },
+                Context = new Context
+                {
+                    System = new AlexaSystem { Application = new Application(), User = new User() }
+                },
+            };
+
+            var alexaMapper = new AlexaRequestMapper();
+            var result = alexaMapper.RequestToActivity(skillRequest);
+
+            Assert.Equal(ActivityTypes.Event, result.Type);
+        }
+
+        [Fact]
+        public void RequestToActivityWithLaunchRequestShouldReturnConversationUpdateActivity()
+        {
+            var skillRequest = new SkillRequest
+            {
+                Request = new LaunchRequest(),
+                Session = new Session { User = new User() },
+                Context = new Context
+                {
+                    System = new AlexaSystem { Application = new Application(), User = new User() }
+                },
+            };
+
+            var alexaMapper = new AlexaRequestMapper();
+            var result = alexaMapper.RequestToActivity(skillRequest);
+
+            Assert.Equal(ActivityTypes.ConversationUpdate, result.Type);
+        }
+
+        [Fact]
+        public void RequestToActivityWithSessionEndedRequestShouldReturnEndOfConversationActivity()
+        {
+            var skillRequest = new SkillRequest
+            {
+                Request = new SessionEndedRequest(),
+                Context = new Context
+                {
+                    System = new AlexaSystem { Application = new Application(), User = new User() }
+                },
+            };
+
+            var alexaMapper = new AlexaRequestMapper();
+            var result = alexaMapper.RequestToActivity(skillRequest);
+
+            Assert.Equal(ActivityTypes.EndOfConversation, result.Type);
+        }
+
+        [Theory]
+        [MemberData(nameof(RequestsMemberData))]
+        public void RequestToActivityShouldReturnEventActivity(Request request)
+        {
+            var skillRequest = new SkillRequest
+            {
+                Request = request,
+                Context = new Context
+                {
+                    System = new AlexaSystem { Application = new Application(), User = new User() }
+                },
+            };
+
+            var alexaMapper = new AlexaRequestMapper();
+            var result = alexaMapper.RequestToActivity(skillRequest);
+
+            Assert.Equal(ActivityTypes.Event, result.Type);
+            Assert.Equal(skillRequest.Request, result.Value);
         }
 
         private static void VerifyIntentRequest(SkillRequest skillRequest, IActivity activity, AlexaRequestMapperOptions mapperOptions)
