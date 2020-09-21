@@ -65,10 +65,7 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
                 return Task.CompletedTask;
             }
 
-            await Assert.ThrowsAsync<ArgumentNullException>(async () =>
-            {
-                await alexaAdapter.ContinueConversationAsync(null, BotsLogic, default);
-            });
+            await Assert.ThrowsAsync<ArgumentNullException>(() => alexaAdapter.ContinueConversationAsync(null, BotsLogic, default));
         }
 
         [Fact]
