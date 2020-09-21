@@ -53,7 +53,7 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
         public void ValidateSkillIdWithNoAlexaSkillIdShouldReturnFalse()
         {
             var alexaAuthorizationHandler = new AlexaAuthorizationHandler(TestLogger.Object);
-            var result = alexaAuthorizationHandler.ValidateSkillId(null, null);
+            var result = alexaAuthorizationHandler.ValidateSkillId(TestSkillRequest, null);
 
             Assert.False(result);
         }
