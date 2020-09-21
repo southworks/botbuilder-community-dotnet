@@ -407,7 +407,6 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
             {
                 Type = ActivityTypes.Message,
                 Text = "   "
-
             };
 
             var activities = new List<Activity> { null, activity };
@@ -428,7 +427,6 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
                 Type = ActivityTypes.Message,
                 Text = "</>",
                 TextFormat = TextFormatTypes.Plain
-
             };
 
             var activities = new List<Activity> { null, activity };
