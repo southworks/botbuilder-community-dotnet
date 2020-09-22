@@ -16,6 +16,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
+using Microsoft.Rest;
 using Moq;
 using Newtonsoft.Json;
 using Xunit;
@@ -24,6 +25,18 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
 {
     public class AlexaRequestMapperTests
     {
+        public static IEnumerable<object[]> RequestsMemberData => new[]
+        {
+            new object[] { new SessionResumedRequest() },
+            new object[] { new AccountLinkSkillEventRequest() },
+            new object[] { new AudioPlayerRequest() },
+            new object[] { new DisplayElementSelectedRequest() },
+            new object[] { new PermissionSkillEventRequest() },
+            new object[] { new PlaybackControllerRequest() },
+            new object[] { new SkillEventRequest() },
+            new object[] { new SystemExceptionRequest() },
+        };
+
         [Fact]
         public void ConstructorWithNoArgumentsShouldSucceed()
         {
@@ -62,12 +75,12 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
             // arrange
             var skillRequest = new SkillRequest
             {
-                Request = new IntentRequest()
+                Request = new IntentRequest
                 {
                     Locale = "en-US",
-                    Intent = new Intent()
+                    Intent = new Intent
                     {
-                        Slots = new Dictionary<string, Slot>()
+                        Slots = new Dictionary<string, Slot>
                         {
                             { "phrase", new Slot() }
                         }
@@ -75,9 +88,9 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
                 },
                 Context = new Context
                 {
-                    System = new AlexaSystem() { Application = new Application(), User = new User() }
+                    System = new AlexaSystem { Application = new Application(), User = new User() }
                 },
-                Session = new Session()
+                Session = new Session
                 {
                     User = new User()
                 }
@@ -98,12 +111,12 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
             // arrange
             var skillRequest = new SkillRequest
             {
-                Request = new LaunchRequest() {},
+                Request = new LaunchRequest(),
                 Context = new Context
                 {
-                    System = new AlexaSystem() { Application = new Application(), User = new User() }
+                    System = new AlexaSystem { Application = new Application(), User = new User() }
                 },
-                Session = new Session()
+                Session = new Session
                 {
                     User = new User()
                 }
@@ -124,9 +137,11 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
             // arrange
             var skillRequest = new SkillRequest
             {
-                Request = new IntentRequest() { Intent = new Intent() 
-                    { 
-                        Slots = new Dictionary<string, Slot>()
+                Request = new IntentRequest
+                {
+                    Intent = new Intent
+                    {
+                        Slots = new Dictionary<string, Slot>
                         {
                             { "phrase", new Slot() }
                         }
@@ -134,9 +149,9 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
                 },
                 Context = new Context
                 {
-                    System = new AlexaSystem() { Application = new Application(), User = new User() }
+                    System = new AlexaSystem { Application = new Application(), User = new User() }
                 },
-                Session = new Session()
+                Session = new Session
                 {
                     User = new User()
                 }
@@ -157,12 +172,12 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
             // arrange
             var skillRequest = new SkillRequest
             {
-                Request = new LaunchRequest() {Locale = "en-US"},
+                Request = new LaunchRequest { Locale = "en-US" },
                 Context = new Context
                 {
-                    System = new AlexaSystem() {Application = new Application(), User = new User()}
+                    System = new AlexaSystem { Application = new Application(), User = new User() }
                 },
-                Session = new Session()
+                Session = new Session
                 {
                     User = new User()
                 }
@@ -186,7 +201,7 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
             var alexaAdapter = new AlexaRequestMapper();
             var inputActivity = MessageFactory.Text(text, ssml);
 
-            var processActivityResult = alexaAdapter.MergeActivities(new List<Activity>() { inputActivity });
+            var processActivityResult = alexaAdapter.MergeActivities(new List<Activity> { inputActivity });
 
             Assert.Equal(text, processActivityResult.MergedActivity.Text);
             Assert.Equal(ssml, processActivityResult.MergedActivity.Speak);
@@ -201,7 +216,7 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
             var alexaAdapter = new AlexaRequestMapper();
             var inputActivity = MessageFactory.Text(text, ssml);
 
-            var processActivityResult = alexaAdapter.MergeActivities(new List<Activity>() { inputActivity });
+            var processActivityResult = alexaAdapter.MergeActivities(new List<Activity> { inputActivity });
 
             Assert.Equal(text, processActivityResult.MergedActivity.Text);
             // When removing the speak tag the serializer adds the missing space at the end of the xml element. This doesn't matter for rendering in Alexa so it is fine.
@@ -217,7 +232,7 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
             var alexaAdapter = new AlexaRequestMapper();
             var inputActivity = MessageFactory.Text(text, ssml);
 
-            var processActivityResult = alexaAdapter.MergeActivities(new List<Activity>() { inputActivity });
+            var processActivityResult = alexaAdapter.MergeActivities(new List<Activity> { inputActivity });
 
             Assert.Equal(text, processActivityResult.MergedActivity.Text);
             // When removing the speak tag the serializer adds the missing space at the end of the xml element. This doesn't matter for rendering in Alexa so it is fine.
@@ -233,7 +248,7 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
             var alexaAdapter = new AlexaRequestMapper();
             var inputActivity = MessageFactory.Text(text, ssml);
 
-            var processActivityResult = alexaAdapter.MergeActivities(new List<Activity>() { inputActivity });
+            var processActivityResult = alexaAdapter.MergeActivities(new List<Activity> { inputActivity });
 
             Assert.Equal(text, processActivityResult.MergedActivity.Text);
             Assert.Equal($"<speak>{ssml}</speak>", processActivityResult.MergedActivity.Speak);
@@ -247,7 +262,7 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
             var firstActivity = MessageFactory.Text("This is the first activity.");
             var secondActivity = MessageFactory.Text("This is the second activity");
 
-            var processActivityResult = alexaAdapter.MergeActivities(new List<Activity>() { firstActivity, secondActivity });
+            var processActivityResult = alexaAdapter.MergeActivities(new List<Activity> { firstActivity, secondActivity });
 
             Assert.Equal("This is the first activity. This is the second activity", processActivityResult.MergedActivity.Text);
         }
@@ -264,7 +279,7 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
                 Content = "https://somefantasticurl/",
             };
             var firstActivity = MessageFactory.Text(JsonConvert.SerializeObject(attachment, HttpHelper.BotMessageSerializerSettings));
-            var secondActivity = (Activity) MessageFactory.Attachment(attachment);
+            var secondActivity = (Activity)MessageFactory.Attachment(attachment);
 
             var processActivityResult = alexaAdapter.MergeActivities(new List<Activity> { firstActivity, secondActivity });
 
@@ -279,10 +294,10 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
             var firstActivity = MessageFactory.Text("This is the first activity.");
             var secondActivity = MessageFactory.Text("This is the second activity");
 
-            firstActivity.Attachments.Add(new SimpleCard { Title = "Simple card title", Content = "Test content"}.ToAttachment());
+            firstActivity.Attachments.Add(new SimpleCard { Title = "Simple card title", Content = "Test content" }.ToAttachment());
             secondActivity.Attachments = null;
 
-            var processActivityResult = alexaAdapter.MergeActivities(new List<Activity>() { firstActivity, secondActivity });
+            var processActivityResult = alexaAdapter.MergeActivities(new List<Activity> { firstActivity, secondActivity });
 
             Assert.Equal("This is the first activity. This is the second activity", processActivityResult.MergedActivity.Text);
             Assert.NotNull(processActivityResult.MergedActivity.Attachments);
@@ -297,7 +312,7 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
             var firstActivity = MessageFactory.Text("This is the first activity.");
             var secondActivity = MessageFactory.Text("");
 
-            var processActivityResult = alexaAdapter.MergeActivities(new List<Activity>() { firstActivity, secondActivity });
+            var processActivityResult = alexaAdapter.MergeActivities(new List<Activity> { firstActivity, secondActivity });
 
             // We want to preserve the period here even though it is merged with empty text.
             Assert.Equal("This is the first activity.", processActivityResult.MergedActivity.Text);
@@ -310,7 +325,7 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
             var firstActivity = MessageFactory.Text("This is the first activity");
             var secondActivity = MessageFactory.Text("");
 
-            var processActivityResult = alexaAdapter.MergeActivities(new List<Activity>() { firstActivity, secondActivity });
+            var processActivityResult = alexaAdapter.MergeActivities(new List<Activity> { firstActivity, secondActivity });
 
             // We want to preserve the missing period here even though it is merged with empty text.
             Assert.Equal("This is the first activity", processActivityResult.MergedActivity.Text);
@@ -327,7 +342,7 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
             var secondActivity = MessageFactory.Text("This is the second activity");
             var typingActivity = Activity.CreateTypingActivity() as Activity;
 
-            var processActivityResult = alexaAdapter.MergeActivities(new List<Activity>() { firstActivity, traceActivity, secondActivity, typingActivity });
+            var processActivityResult = alexaAdapter.MergeActivities(new List<Activity> { firstActivity, traceActivity, secondActivity, typingActivity });
 
             Assert.Equal("This is the first activity. This is the second activity", processActivityResult.MergedActivity.Text);
         }
@@ -343,7 +358,7 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
             var firstActivity = MessageFactory.Text("This is the first activity.", "This is<break strength=\"strong\"/>the first activity SSML");
             var secondActivity = MessageFactory.Text("This is the second activity", "<speak>This is the second activity SSML</speak>");
 
-            var processActivityResult = alexaAdapter.MergeActivities(new List<Activity>() { firstActivity, secondActivity });
+            var processActivityResult = alexaAdapter.MergeActivities(new List<Activity> { firstActivity, secondActivity });
 
             Assert.Equal("<speak>This is<break strength=\"strong\"/>the first activity SSML<break strength=\"strong\"/>This is the second activity SSML</speak>", processActivityResult.MergedActivity.Speak);
             Assert.Equal("This is the first activity. This is the second activity", processActivityResult.MergedActivity.Text);
@@ -361,7 +376,7 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
             var firstActivity = MessageFactory.Text("This is the first activity.", "This is<break strength=\"strong\"/>the first activity SSML");
             var secondActivity = MessageFactory.Attachment(new HeroCard("test", "test").ToAttachment()) as Activity;
 
-            var processActivityResult = alexaAdapter.MergeActivities(new List<Activity>() { firstActivity, secondActivity });
+            var processActivityResult = alexaAdapter.MergeActivities(new List<Activity> { firstActivity, secondActivity });
 
             Assert.Equal("<speak>This is<break strength=\"strong\"/>the first activity SSML</speak>", processActivityResult.MergedActivity.Speak);
             Assert.Equal("This is the first activity.", processActivityResult.MergedActivity.Text);
@@ -373,9 +388,9 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
         {
             var alexaAdapter = new AlexaRequestMapper();
 
-            var activity = (Activity) Activity.CreateEndOfConversationActivity();
+            var activity = (Activity)Activity.CreateEndOfConversationActivity();
 
-            var processActivityResult = alexaAdapter.MergeActivities(new List<Activity>() { activity });
+            var processActivityResult = alexaAdapter.MergeActivities(new List<Activity> { activity });
 
             // Empty merged activities.
             Assert.NotNull(processActivityResult);
@@ -384,18 +399,77 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
         }
 
         [Fact]
+        public void MergeActivitiesWithWhitespacesShouldReturnEmpty()
+        {
+            var alexaAdapter = new AlexaRequestMapper();
+
+            var activity = new Activity
+            {
+                Type = ActivityTypes.Message,
+                Text = "   "
+            };
+
+            var activities = new List<Activity> { null, activity };
+
+            var processActivityResult = alexaAdapter.MergeActivities(activities);
+
+            Assert.NotNull(processActivityResult);
+            Assert.Empty(processActivityResult.MergedActivity.Text);
+        }
+
+        [Fact]
+        public void MergeActivitiesWithTextFormatTypePlainShouldReturnValue()
+        {
+            var alexaAdapter = new AlexaRequestMapper();
+
+            var activity = new Activity
+            {
+                Type = ActivityTypes.Message,
+                Text = "</>",
+                TextFormat = TextFormatTypes.Plain
+            };
+
+            var activities = new List<Activity> { null, activity };
+
+            var processActivityResult = alexaAdapter.MergeActivities(activities);
+
+            Assert.NotNull(processActivityResult);
+            Assert.Equal(activity.Text, processActivityResult.MergedActivity.Text);
+        }
+
+        [Fact]
+        public void MergeActivitiesWithTextFormatTypeXmlShouldReturnEmpty()
+        {
+            var alexaAdapter = new AlexaRequestMapper();
+
+            var activity = new Activity
+            {
+                Type = ActivityTypes.Message,
+                Text = "</>",
+                TextFormat = TextFormatTypes.Xml
+            };
+
+            var activities = new List<Activity> { null, activity };
+
+            var processActivityResult = alexaAdapter.MergeActivities(activities);
+
+            Assert.NotNull(processActivityResult);
+            Assert.Empty(processActivityResult.MergedActivity.Text);
+        }
+
+        [Fact]
         public void MergeActivitiesJoinedTextWithEndOfConversation()
         {
             var alexaAdapter = new AlexaRequestMapper();
 
-            var activites = new List<Activity>()
+            var activities = new List<Activity>
             {
                 MessageFactory.Text("This is the first activity."),
                 (Activity)Activity.CreateEndOfConversationActivity(),
                 MessageFactory.Text("This is the second activity")
             };
 
-            var processActivityResult = alexaAdapter.MergeActivities(activites);
+            var processActivityResult = alexaAdapter.MergeActivities(activities);
 
             Assert.Equal("This is the first activity. This is the second activity", processActivityResult.MergedActivity.Text);
             Assert.True(processActivityResult.EndOfConversationFlagged);
@@ -428,7 +502,7 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
             var firstActivity = MessageFactory.Text(message.ToString(), "This is<break strength=\"strong\"/>the first activity SSML");
             var secondActivity = MessageFactory.Text("This is the second activity.", "<speak>This is the second activity SSML</speak>");
 
-            var processActivityResult = alexaAdapter.MergeActivities(new List<Activity>() { firstActivity, secondActivity });
+            var processActivityResult = alexaAdapter.MergeActivities(new List<Activity> { firstActivity, secondActivity });
 
             Assert.Equal("This is the first activity. Heading 1. This is another paragraph. Item 1, Item 2, Item 3. Heading 2. 1. Item 1, 2. Item 2, 3. Item 3. More info visit our web site www.microsoft.com. This is the second activity.",
                 processActivityResult.MergedActivity.Text);
@@ -452,7 +526,53 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
         }
 
         [Fact]
-        public void AppostrophiesNotConvertedNonSsml()
+        public void ActivityWithEndOfConversationFlaggedShouldEndSession()
+        {
+            var skillRequest = SkillRequestHelper.CreateIntentRequest();
+            var mapper = new AlexaRequestMapper();
+
+            var activity = Activity.CreateMessageActivity() as Activity;
+            activity.Text = "Hello world";
+            activity.TextFormat = TextFormatTypes.Plain;
+
+            var skillResponse = ExecuteActivityToResponse(mapper, new MergedActivityResult { MergedActivity = activity, EndOfConversationFlagged = true }, skillRequest);
+            VerifyPlainTextResponse(skillResponse, activity.Text);
+        }
+
+        [Fact]
+        public void ActivityWithInputHintsIgnoringInputShouldEndSession()
+        {
+            var skillRequest = SkillRequestHelper.CreateIntentRequest();
+            var mapper = new AlexaRequestMapper();
+
+            var activity = Activity.CreateMessageActivity() as Activity;
+            activity.Text = "Hello world";
+            activity.TextFormat = TextFormatTypes.Plain;
+            activity.InputHint = InputHints.IgnoringInput;
+
+            var skillResponse = ExecuteActivityToResponse(mapper, new MergedActivityResult { MergedActivity = activity }, skillRequest);
+            VerifyPlainTextResponse(skillResponse, activity.Text);
+        }
+
+        [Fact]
+        public void ActivityWithInputHintsExpectingInputShouldReprompt()
+        {
+            var skillRequest = SkillRequestHelper.CreateIntentRequest();
+            var mapper = new AlexaRequestMapper();
+
+            var activity = Activity.CreateMessageActivity() as Activity;
+            activity.Text = "Hello world";
+            activity.TextFormat = TextFormatTypes.Plain;
+            activity.InputHint = InputHints.ExpectingInput;
+
+            var skillResponse = ExecuteActivityToResponse(mapper, new MergedActivityResult { MergedActivity = activity }, skillRequest);
+
+            Assert.False(skillResponse.Response.ShouldEndSession);
+            Assert.NotNull(skillResponse.Response.Reprompt.OutputSpeech);
+        }
+
+        [Fact]
+        public void ApostrophesNotConvertedNonSsml()
         {
             const string text = "It's amazing <xml />";
             var alexaAdapter = new AlexaRequestMapper();
@@ -463,14 +583,14 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
             var activity = Activity.CreateMessageActivity() as Activity;
             activity.Text = text;
 
-            var processActivityResult = alexaAdapter.MergeActivities(new List<Activity>() { activity });
+            var processActivityResult = alexaAdapter.MergeActivities(new List<Activity> { activity });
 
             var skillResponse = ExecuteActivityToResponse(mapper, processActivityResult, skillRequest);
             VerifyPlainTextResponse(skillResponse, text);
         }
 
         [Fact]
-        public void AppostrophiesNotConvertedSsml()
+        public void ApostrophesNotConvertedSsml()
         {
             const string text = "It's amazing <break /> really";
             var alexaAdapter = new AlexaRequestMapper();
@@ -481,7 +601,7 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
             var activity = Activity.CreateMessageActivity() as Activity;
             activity.Speak = text;
 
-            var processActivityResult = alexaAdapter.MergeActivities(new List<Activity>() { activity });
+            var processActivityResult = alexaAdapter.MergeActivities(new List<Activity> { activity });
 
             var skillResponse = ExecuteActivityToResponse(mapper, processActivityResult, skillRequest);
             var outputSpeech = skillResponse.Response.OutputSpeech as SsmlOutputSpeech;
@@ -524,31 +644,31 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
             activity.Text = "Hello world";
 
             var hintDirective = new HintDirective("hint text");
-            
-            var displayDirective = new DisplayRenderTemplateDirective()
+
+            var displayDirective = new DisplayRenderTemplateDirective
             {
-                Template = new BodyTemplate1()
+                Template = new BodyTemplate1
                 {
-                    BackgroundImage = new TemplateImage()
+                    BackgroundImage = new TemplateImage
                     {
                         ContentDescription = "Test",
-                        Sources = new List<ImageSource>()
+                        Sources = new List<ImageSource>
                         {
-                            new ImageSource()
+                            new ImageSource
                             {
                                 Url = "https://via.placeholder.com/576.png/09f/fff",
                             }
                         }
                     },
-                    Content = new TemplateContent()
+                    Content = new TemplateContent
                     {
-                        Primary = new TemplateText() { Text = "Test", Type = "PlainText" }
+                        Primary = new TemplateText { Text = "Test", Type = "PlainText" }
                     },
                     Title = "Test title",
                 }
             };
 
-            var simpleCard = new SimpleCard()
+            var simpleCard = new SimpleCard
             {
                 Title = "This is a simple card",
                 Content = "This is the simple card content"
@@ -560,7 +680,7 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
 
             var skillResponse = ExecuteActivityToResponse(mapper, new MergedActivityResult { MergedActivity = activity }, skillRequest);
 
-            VerifyCardAttachmentAndDirectiveResponse(skillResponse, simpleCard, new List<IDirective>() { hintDirective, displayDirective });
+            VerifyCardAttachmentAndDirectiveResponse(skillResponse, simpleCard, new List<IDirective> { hintDirective, displayDirective });
         }
 
         [Fact]
@@ -575,9 +695,9 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
                 Text = "Card text",
                 Images = new List<Microsoft.Bot.Schema.CardImage>
                 {
-                    new Microsoft.Bot.Schema.CardImage() { Url = "https://url" }
+                    new Microsoft.Bot.Schema.CardImage { Url = "https://url" }
                 },
-                Buttons = new List<CardAction>()
+                Buttons = new List<CardAction>
                 {
                     new CardAction { Title = "Places to buy", Type=ActionTypes.ImBack, Value="Places To Buy" },
                     new CardAction
@@ -591,7 +711,7 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
             };
 
             var activity = Activity.CreateMessageActivity() as Activity;
-            activity.Attachments.Add(new Attachment() { ContentType = HeroCard.ContentType, Content = heroCard});
+            activity.Attachments.Add(new Attachment { ContentType = HeroCard.ContentType, Content = heroCard });
 
             var skillResponse = ExecuteActivityToResponse(mapper, new MergedActivityResult { MergedActivity = activity }, skillRequest);
 
@@ -604,6 +724,31 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
         }
 
         [Fact]
+        public void MessageActivityWithHeroCardWithoutImagesShouldReturnSimpleCard()
+        {
+            var skillRequest = SkillRequestHelper.CreateIntentRequest();
+            var mapper = new AlexaRequestMapper();
+
+            var heroCard = new HeroCard
+            {
+                Title = "Card title",
+                Text = "Card text",
+                Images = new List<Microsoft.Bot.Schema.CardImage> { },
+            };
+
+            var activity = Activity.CreateMessageActivity() as Activity;
+            activity.Attachments.Add(new Attachment { ContentType = HeroCard.ContentType, Content = heroCard });
+
+            var skillResponse = ExecuteActivityToResponse(mapper, new MergedActivityResult { MergedActivity = activity }, skillRequest);
+
+            Assert.NotNull(skillResponse.Response.Card);
+            Assert.IsType<SimpleCard>(skillResponse.Response.Card);
+            var card = skillResponse.Response.Card as SimpleCard;
+            Assert.Equal(heroCard.Text, card.Content);
+            Assert.Equal(heroCard.Title, card.Title);
+        }
+
+        [Fact]
         public void MessageActivityWithSignInCard()
         {
             var skillRequest = SkillRequestHelper.CreateIntentRequest();
@@ -612,7 +757,7 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
             var signinCard = new SigninCard
             {
                 Text = "sign in text",
-                Buttons = new List<CardAction>()
+                Buttons = new List<CardAction>
                 {
                     new CardAction
                     {
@@ -625,7 +770,7 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
             };
 
             var activity = Activity.CreateMessageActivity() as Activity;
-            activity.Attachments.Add(new Attachment() { ContentType = SigninCard.ContentType, Content = signinCard });
+            activity.Attachments.Add(new Attachment { ContentType = SigninCard.ContentType, Content = signinCard });
 
             var skillResponse = ExecuteActivityToResponse(mapper, new MergedActivityResult { MergedActivity = activity }, skillRequest);
 
@@ -660,9 +805,9 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
                 Request = request,
                 Context = new Context
                 {
-                    System = new AlexaSystem() { Application = new Application(), User = new User() }
+                    System = new AlexaSystem { Application = new Application(), User = new User() }
                 },
-                Session = new Session()
+                Session = new Session
                 {
                     User = new User()
                 }
@@ -678,6 +823,114 @@ namespace Bot.Builder.Community.Adapters.Alexa.Tests
                                 NullValueHandling = NullValueHandling.Ignore,
                                 Formatting = Formatting.Indented
                             });
+        }
+
+        [Fact]
+        public void RequestToActivityWithNoRequestShouldThrowValidationException()
+        {
+            var skillRequest = new SkillRequest();
+            var alexaMapper = new AlexaRequestMapper();
+
+            Assert.Throws<ValidationException>(() => alexaMapper.RequestToActivity(skillRequest));
+        }
+
+        [Fact]
+        public void RequestToActivityWithIntentRequestShouldReturnEndOfConversationActivity()
+        {
+            var skillRequest = new SkillRequest
+            {
+                Request = new IntentRequest
+                {
+                    Intent = new Intent { Name = "AMAZON.StopIntent", Slots = null }
+                },
+                Context = new Context
+                {
+                    System = new AlexaSystem { Application = new Application(), User = new User() }
+                },
+            };
+
+            var alexaMapper = new AlexaRequestMapper();
+            var result = alexaMapper.RequestToActivity(skillRequest);
+
+            Assert.Equal(ActivityTypes.EndOfConversation, result.Type);
+        }
+
+        [Fact]
+        public void RequestToActivityWithIntentRequestShouldReturnEventActivity()
+        {
+            var skillRequest = new SkillRequest
+            {
+                Request = new IntentRequest
+                {
+                    Intent = new Intent { Slots = null }
+                },
+                Context = new Context
+                {
+                    System = new AlexaSystem { Application = new Application(), User = new User() }
+                },
+            };
+
+            var alexaMapper = new AlexaRequestMapper();
+            var result = alexaMapper.RequestToActivity(skillRequest);
+
+            Assert.Equal(ActivityTypes.Event, result.Type);
+        }
+
+        [Fact]
+        public void RequestToActivityWithLaunchRequestShouldReturnConversationUpdateActivity()
+        {
+            var skillRequest = new SkillRequest
+            {
+                Request = new LaunchRequest(),
+                Session = new Session { User = new User() },
+                Context = new Context
+                {
+                    System = new AlexaSystem { Application = new Application(), User = new User() }
+                },
+            };
+
+            var alexaMapper = new AlexaRequestMapper();
+            var result = alexaMapper.RequestToActivity(skillRequest);
+
+            Assert.Equal(ActivityTypes.ConversationUpdate, result.Type);
+        }
+
+        [Fact]
+        public void RequestToActivityWithSessionEndedRequestShouldReturnEndOfConversationActivity()
+        {
+            var skillRequest = new SkillRequest
+            {
+                Request = new SessionEndedRequest(),
+                Context = new Context
+                {
+                    System = new AlexaSystem { Application = new Application(), User = new User() }
+                },
+            };
+
+            var alexaMapper = new AlexaRequestMapper();
+            var result = alexaMapper.RequestToActivity(skillRequest);
+
+            Assert.Equal(ActivityTypes.EndOfConversation, result.Type);
+        }
+
+        [Theory]
+        [MemberData(nameof(RequestsMemberData))]
+        public void RequestToActivityShouldReturnEventActivity(Request request)
+        {
+            var skillRequest = new SkillRequest
+            {
+                Request = request,
+                Context = new Context
+                {
+                    System = new AlexaSystem { Application = new Application(), User = new User() }
+                },
+            };
+
+            var alexaMapper = new AlexaRequestMapper();
+            var result = alexaMapper.RequestToActivity(skillRequest);
+
+            Assert.Equal(ActivityTypes.Event, result.Type);
+            Assert.Equal(skillRequest.Request, result.Value);
         }
 
         private static void VerifyIntentRequest(SkillRequest skillRequest, IActivity activity, AlexaRequestMapperOptions mapperOptions)
