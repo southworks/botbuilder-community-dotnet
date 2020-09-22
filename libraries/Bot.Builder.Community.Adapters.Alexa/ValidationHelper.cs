@@ -1,8 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Alexa.NET.Request;
 using Bot.Builder.Community.Adapters.Alexa.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+
+[assembly: InternalsVisibleTo("Bot.Builder.Community.Adapters.Alexa.Tests")]
 
 namespace Bot.Builder.Community.Adapters.Alexa
 {

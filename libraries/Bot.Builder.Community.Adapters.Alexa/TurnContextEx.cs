@@ -1,8 +1,9 @@
 ﻿using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("Bot.Builder.Community.Adapters.Alexa.Tests")]
 
 namespace Bot.Builder.Community.Adapters.Alexa
 {
