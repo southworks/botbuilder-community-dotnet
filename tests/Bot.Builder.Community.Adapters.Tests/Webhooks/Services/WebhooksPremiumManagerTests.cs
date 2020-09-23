@@ -35,7 +35,6 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Services
         public async Task GetRegisteredWebhooksShouldReturnUnauthorized()
         {
             var premiumManager = new WebhooksPremiumManager(_testOptions.Object.Value);
-
             var result = await premiumManager.GetRegisteredWebhooks();
 
             Assert.Equal(89, result.Error.Errors[0].Code);
@@ -45,8 +44,8 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Services
         public async Task RegisterWebhookShouldReturnUnauthorized()
         {
             var premiumManager = new WebhooksPremiumManager(_testOptions.Object.Value);
-
             var result = await premiumManager.RegisterWebhook("webhook-url", "env");
+            
             Assert.Equal(89, result.Error.Errors[0].Code);
         }
 
@@ -55,17 +54,13 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Services
         {
             var premiumManager = new WebhooksPremiumManager(_testOptions.Object.Value);
 
-            await Assert.ThrowsAsync<ArgumentException>(async () =>
-            {
-                await premiumManager.RegisterWebhook(string.Empty, "env_test");
-            });
+            await Assert.ThrowsAsync<ArgumentException>(() => premiumManager.RegisterWebhook(string.Empty, "env_test"));
         }
 
         [Fact]
         public async Task UnregisterWebhookShouldReturnUnauthorized()
         {
             var premiumManager = new WebhooksPremiumManager(_testOptions.Object.Value);
-
             var result = await premiumManager.UnregisterWebhook("webhook-id", "env");
 
             Assert.Equal(89, result.Error.Errors[0].Code);
