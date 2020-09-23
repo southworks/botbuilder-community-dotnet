@@ -41,18 +41,22 @@ namespace Bot.Builder.Community.Adapters.Twitter.Tests.Webhooks.Models.Twitter
             Assert.Equal("https://url", mediaEntity.url);
             Assert.Equal("media-type", mediaEntity.type);
             Assert.Equal(3, mediaEntity.indices.Length);
+            
             // TwitterSizeThumb
             Assert.Equal(128, mediaEntity.sizes.thumb.h);
             Assert.Equal(72, mediaEntity.sizes.thumb.w);
             Assert.Equal("resize", mediaEntity.sizes.thumb.resize);
+            
             // TwitterSizeSmall
             Assert.Equal(640, mediaEntity.sizes.small.h);
             Assert.Equal(360, mediaEntity.sizes.small.w);
             Assert.Equal("resize", mediaEntity.sizes.small.resize);
+            
             // TwitterSizeMedium
             Assert.Equal(1280, mediaEntity.sizes.medium.h);
             Assert.Equal(720, mediaEntity.sizes.medium.w);
             Assert.Equal("resize", mediaEntity.sizes.medium.resize);
+            
             // TwitterSizeLarge
             Assert.Equal(1920, mediaEntity.sizes.large.h);
             Assert.Equal(1080, mediaEntity.sizes.large.w);
